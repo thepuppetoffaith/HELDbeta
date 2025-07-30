@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <title>HELD AR</title>
-  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <meta charset="utf-8" />
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <style>body { margin: 0; overflow: hidden; }</style>
   </head>
   <body>
-    <a-scene vr-mode-ui="enabled:false;" arjs >
-        <a-nft type="nft" url="image_marker/HELD lowres">
-          <a-box scale="100 100 100"></a-box>
-        </a-nft>
+    <a-scene
+      mindar-image="imageTargetSrc: target.mind; autoStart: true;"
+      embedded
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+    >
+      <a-assets>
+        <img id="display-img" src="image-display.jpg" />
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane
+          src="#display-img"
+          position="0 0 0"
+          rotation="0 0 0"
+          width="1"
+          height="0.7"
+        ></a-plane>
+      </a-entity>
     </a-scene>
   </body>
 </html>
