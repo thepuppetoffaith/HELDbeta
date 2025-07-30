@@ -4,9 +4,25 @@
     <meta charset="utf-8" />
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-aframe.prod.js"></script>
-    <style>body { margin: 0; overflow: hidden; }</style>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #status {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-family: sans-serif;
+        z-index: 999;
+      }
+    </style>
   </head>
   <body>
+    <div id="status">🔍 Mencari gambar untuk dipindai...</div>
+
     <a-scene
       mindar-image="imageTargetSrc: target.mind; autoStart: true;"
       embedded
@@ -14,20 +30,33 @@
       device-orientation-permission-ui="enabled: true"
     >
       <a-assets>
-        <img id="display-img" src="image-display.jpg" />
+        <img id="display-img" src="image-display.png" />
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0">
+      <a-entity mindar-image-target="targetIndex: 0" id="target">
         <a-plane
           src="#display-img"
           position="0 0 0"
-          rotation="0 0 0"
-          width="1"
-          height="0.7"
+          rotation="-90 0 0"
+          width="1.5"
+          height="1"
         ></a-plane>
       </a-entity>
     </a-scene>
+
+    <script>
+      const statusEl = document.getElementById("status");
+      const target = document.getElementById("target");
+
+      target.addEventListener("targetFound", () => {
+        statusEl.innerText = "✅ Gambar ditemukan!";
+      });
+
+      target.addEventListener("targetLost", () => {
+        statusEl.innerText = "🔍 Mencari gambar untuk dipindai...";
+      });
+    </script>
   </body>
 </html>
